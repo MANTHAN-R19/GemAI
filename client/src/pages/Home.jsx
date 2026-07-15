@@ -87,20 +87,22 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (!search) {
+    if (!search.trim()) {
       setFilteredPost(posts);
+      return;
     }
+
+    const searchText = search.toLowerCase();
+
     const filteredPosts = posts.filter((post) => {
-      const promptMatch = post?.prompt?.toLowerCase().includes(search);
-      const authorMatch = post?.author?.toLowerCase().includes(search);
+    const promptMatch = post?.prompt?.toLowerCase().includes(searchText);
+    const nameMatch = post?.name?.toLowerCase().includes(searchText);
 
-      return promptMatch || authorMatch;
-    });
+    return promptMatch || nameMatch;
+  });
 
-    if (search) {
-      setFilteredPost(filteredPosts);
-    }
-  }, [posts, search]);
+  setFilteredPost(filteredPosts);
+}, [posts, search]);
 
   return (
     <Container>
